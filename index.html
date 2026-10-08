@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8"><title>Vigi — prototype</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Manrope:wght@400;500;700;800&display=swap">
+<style>
+:root{--pg:#e9e8e4;--pgi:#17171c;--lime:#cae250;--ink:#17171c;--cream:#f7f5f1;--mute:#6f7080;--line:#e4e1da;--sf:"DM Serif Display",Georgia,serif;--ss:Manrope,system-ui,sans-serif;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--pg:#25252b;--pgi:#f1f1f4}}
+:root[data-theme=dark]{--pg:#25252b;--pgi:#f1f1f4}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--pg);color:var(--pgi);font:14px/1.45 var(--ss);display:flex;flex-direction:column;align-items:center;gap:12px;padding:16px}
+.demo{display:flex;gap:6px;align-items:center;font-size:13px;min-height:30px}
+.demo button{border:1px solid #8886;background:transparent;color:var(--pgi);padding:5px 12px;border-radius:99px;font:inherit;cursor:pointer}
+.demo button.on{background:var(--pgi);color:var(--pg)}
+.phone{position:relative;width:360px;max-width:100%;height:720px;border-radius:44px;border:9px solid #1b1b20;overflow:hidden;background:var(--cream);color:var(--ink)}
+.layer{position:absolute;inset:0;display:none}.layer.on{display:block}
+.sc{position:absolute;inset:0;overflow:auto;padding:0 20px 120px;display:none;scrollbar-width:none}.sc.on{display:block}
+.sc::-webkit-scrollbar{display:none}
+.lg{width:40px;height:40px;flex:none;border-radius:11px;box-shadow:0 0 0 1px rgba(255,255,255,.2)}
+.brand{display:flex;align-items:center;gap:10px;font:26px var(--sf)}
+h1,h2{font:400 36px/1.02 var(--sf);margin:0;letter-spacing:-.5px}h2{font-size:34px}
+.k{font-size:11px;font-weight:800;letter-spacing:1.4px;color:#8a8b96;text-transform:uppercase;margin:0 0 8px}
+p{margin:0 0 12px;color:var(--mute)}
+.hero{background:var(--ink);color:#fff;margin:0 -20px;padding:52px 20px 26px;border-radius:0 0 4px 4px}
+.hero .k{color:var(--lime);margin:22px 0 6px}.hero h1{font-size:40px}
+.bars{display:flex;align-items:center;gap:8px;margin:20px 0 28px;font-size:11px;font-weight:800;color:#8a8b96}
+.bars i{width:42px;height:4px;border-radius:2px;background:#dcdad2}.bars i.o{background:var(--lime)}
+label{display:block;font-weight:800;font-size:13px;margin:16px 0 8px}
+.in{display:flex;align-items:center;background:#fff;border:1px solid var(--line);border-radius:18px;padding:0 18px;height:58px}
+.in input{flex:1;border:0;outline:0;background:transparent;font:700 15px var(--ss);color:var(--ink);min-width:0}
+.in span{cursor:pointer;opacity:.6}
+.btn{display:flex;justify-content:center;gap:12px;align-items:center;width:100%;height:56px;border:0;border-radius:18px;background:var(--lime);color:var(--ink);font:800 15px var(--ss);margin-top:22px;cursor:pointer}
+.btn.g{background:#eeece7;height:50px;margin-top:10px;border-radius:16px}
+.btn[disabled]{opacity:.45;cursor:default}
+.note{display:flex;gap:10px;font-size:12px;color:var(--mute);border-top:1px solid var(--line);margin-top:22px;padding-top:16px}
+.back{display:inline-flex;gap:8px;font-weight:700;color:var(--mute);cursor:pointer;margin-bottom:24px;background:none;border:0;font:700 13px var(--ss);padding:0}
+.who{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--line)}
+.av{width:50px;height:50px;border-radius:15px;background:var(--ink);color:var(--lime);display:grid;place-items:center;font-weight:800;font-size:13px;flex:none}
+.pl{margin-left:auto;background:var(--ink);color:#fff;border-radius:99px;padding:7px 14px;font-weight:800;font-size:12px}.pl:before{content:"● ";color:var(--lime);font-size:8px}
+.perm{display:flex;gap:14px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
+.perm b{display:block}.perm small{color:var(--mute);font-size:12px}
+.bx{width:38px;height:38px;border-radius:11px;background:var(--lime);display:grid;place-items:center;font-weight:800;flex:none}.bx.x{background:var(--ink);color:#fff}
+.top{display:flex;justify-content:space-between;align-items:center;padding:52px 0 22px}
+.dk{background:var(--ink);color:#fff;border-radius:28px;padding:22px;position:relative;overflow:hidden;margin:6px 0 18px}
+.dk p{color:#c9c9d3;font-size:13px}.dk .big{font:56px var(--sf);line-height:1}.dk .big s{text-decoration:none;color:var(--lime);font-size:30px}
+.ringw{position:absolute;right:22px;top:62px;width:96px;height:96px;display:grid;place-items:center;text-align:center;font-size:10px;color:#aaa}
+.ringw b{display:block;color:#fff;font-size:20px}.ringw svg{position:absolute;inset:0}
+.card{background:#fff;border:1px solid var(--line);border-radius:26px;padding:20px;margin-bottom:16px}
+.pill{background:#eef3d2;color:var(--ink);border-radius:99px;padding:6px 12px;font-weight:800;font-size:11px;letter-spacing:1px;margin-left:auto}.pill:before{content:"● ";color:var(--lime);font-size:8px}
+.pill.off{background:#eceae4;color:var(--mute)}.pill.off:before{color:#aaa}
+.ic{width:46px;height:46px;border-radius:14px;background:var(--ink);color:var(--lime);display:grid;place-items:center;font-size:20px;flex:none}
+.stat{display:flex;gap:16px;align-items:flex-start}.stat .bx{width:34px;height:34px;font-size:13px}
+.stat .n{font:34px var(--sf);line-height:1.1}.stat b{display:block}.stat small{color:var(--mute);font-size:12px}
+.sc3{display:flex;gap:8px;margin-top:12px}.sc3>div{flex:1;border-radius:20px;padding:14px;min-height:96px;display:flex;flex-direction:column;justify-content:space-between;font-size:11px;font-weight:700}
+.sc3 .n{font:26px var(--sf)}
+.list{background:#fff;border:1px solid var(--line);border-radius:24px;margin-bottom:22px;overflow:hidden}
+.li{display:flex;align-items:center;gap:14px;padding:14px 16px;border-bottom:1px solid var(--line)}.li:last-child{border:0}
+.li .ix{width:42px;height:42px;border-radius:12px;background:#f1efea;display:grid;place-items:center;flex:none}
+.li small{display:block;color:var(--mute);font-size:12px}.li>div:nth-child(2){flex:1}
+.sw{width:46px;height:28px;border-radius:99px;background:#ccc;position:relative;cursor:pointer;flex:none}
+.sw:after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:.2s}
+.sw.on{background:var(--lime)}.sw.on:after{left:21px}
+.avs{width:60px;height:60px;border-radius:50%;background:var(--lime);display:grid;place-items:center;font-weight:800}
+.navp{position:absolute;left:50%;bottom:20px;transform:translateX(-50%);background:#232328;border-radius:26px;padding:7px;display:none;gap:4px;z-index:4;box-shadow:0 10px 30px #0006}
+.navp.on{display:flex}
+.navp button{border:0;background:transparent;color:#aaa;border-radius:20px;padding:10px 20px;font:700 11px var(--ss);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px}
+.navp button.on{background:#3a3a40;color:#fff}.navp span{font-size:18px}
+/* splash */
+.splash{background:#000;color:#fff;display:none;flex-direction:column;align-items:center;justify-content:center;gap:16px;z-index:9}.splash.on{display:flex}
+.splash .n{font-size:54px}.splash i{display:block;width:120px;height:3px;background:#333;border-radius:2px;overflow:hidden}
+.splash i:after{content:"";display:block;height:100%;width:0;background:var(--lime);animation:ld 1.3s forwards}@keyframes ld{to{width:100%}}
+/* TikTok */
+.tt{background:linear-gradient(160deg,#1d2340,#3a2a55 60%,#10131f);color:#fff}
+.ttop{display:flex;justify-content:center;gap:16px;padding:48px 0 0;font-weight:700;opacity:.9}
+.srch{position:absolute;right:16px;top:46px;font-size:22px}
+.badge{touch-action:none;cursor:grab;position:absolute;right:16px;top:82px;width:30px;height:30px;border-radius:9px;border:0;background:#000;color:var(--lime);font:800 15px var(--ss);cursor:pointer;box-shadow:0 0 0 2px rgba(255,255,255,.18)}
+.side{position:absolute;right:14px;bottom:100px;display:flex;flex-direction:column;gap:18px;text-align:center;font-size:12px}
+.cap{position:absolute;left:16px;bottom:44px;right:84px}
+.toast{position:absolute;left:16px;right:16px;top:100px;background:#000c;border-radius:14px;padding:10px 14px;font-size:12px;opacity:0;transition:.4s;pointer-events:none}.toast.on{opacity:1}
+.sheet{position:absolute;left:0;right:0;bottom:0;height:50%;background:#fff;color:var(--ink);border-radius:24px 24px 0 0;display:flex;flex-direction:column;transform:translateY(105%);transition:transform .3s,height .3s;padding:14px 18px 0;z-index:5}
+.sheet.open{transform:none}.sheet.full{height:100%;border-radius:0;padding-top:44px}
+.grip{padding:0 0 10px;margin-top:-6px;cursor:grab;touch-action:none}.grip i{display:block;width:40px;height:4px;border-radius:2px;background:#bbb;margin:0 auto}
+.hd{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:36px}.hd b{font-size:16px}
+.ib{width:36px;height:36px;border-radius:50%;border:0;background:#f1efea;color:var(--ink);font-size:18px;cursor:pointer;flex:none}
+.body{flex:1;overflow:auto;padding:6px 0}.body p{font-size:13px}.body h3{margin:6px 0 8px;font-size:17px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chip{border:0;border-radius:99px;padding:5px 11px;font:700 13px/1.2 var(--ss);cursor:pointer;background:var(--lime);color:#000}
+.chip.g{background:#d8d9de;color:#8d8f99;font-weight:500}
+.ext a{display:block;padding:12px 14px;border:1px solid var(--line);border-radius:14px;margin-top:8px;color:var(--ink);text-decoration:none;font-weight:700}.ext a small{display:block;font-weight:400;color:var(--mute)}
+.dis{align-self:center;margin:8px 0 18px;width:auto;padding:6px 14px;border-radius:99px;border:1px solid var(--ink);background:transparent;color:var(--ink);font:700 13px var(--ss);cursor:pointer}.dis.ok{background:#000;border-color:#000;color:var(--lime)}
+.hide{display:none!important}
+</style></head><body>
+<svg width="0" height="0" style="position:absolute"><symbol id="lg" viewBox="0 0 100 100"><rect width="100" height="100" rx="24" fill="#0a0a0a"/><path d="M27 52 43 68 74 33" fill="none" stroke="#ddf84a" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/></symbol></svg>
+<div class="demo hide" id="demo"><button id="ret">← Retour à l'application</button>&nbsp;|&nbsp;Démo du score :<button data-s="1">1</button><button data-s="2" class="on">2</button><button data-s="3">3</button></div>
+
+<div class="phone">
+ <div class="layer on" id="app">
+  <div class="sc on" id="login"><div class="hero"></div>
+   <div class="bars"><i class="o"></i><i></i><span>01 / 02</span></div>
+   <p class="k">Connexion TikTok</p><h2>Connectez votre compte.</h2><p style="margin-top:14px;font-size:15px">Vigi affiche un indice sous la loupe pour vous aider à vous faire votre propre avis.</p>
+   <label>Identifiant TikTok</label><div class="in"><input id="u" value="@camille.d"></div>
+   <label>Mot de passe</label><div class="in"><input id="pw" type="password" placeholder="Votre mot de passe"><span id="eye">👁</span></div>
+   <button class="btn" data-go="confirm">Se connecter <span>→</span></button>
+   <div class="note"><span>🛡</span><span><b style="color:var(--ink)">Connexion chiffrée.</b> Votre mot de passe n'est jamais conservé sur nos serveurs.</span></div></div>
+  <div class="sc" id="confirm"><div class="hero"></div>
+   <div class="bars"><i class="o"></i><i class="o"></i><span>02 / 02</span></div>
+   <button class="back" data-go="login">‹ &nbsp;Retour</button>
+   <p class="k">Dernière étape</p><h2>Confirmez la connexion.</h2><p style="margin-top:14px;font-size:15px">Vérifiez les autorisations accordées avant d'activer l'accompagnement.</p>
+   <div class="who"><div class="av">CA</div><div><b id="who">@camille.d</b><small style="display:block;color:var(--mute)">Compte TikTok détecté</small></div><span class="pl">Prêt</span></div>
+   <p style="margin:14px 0 0;font-size:13px">Vigi pourra :</p>
+   <div class="perm"><span class="bx">✓</span><div><b>Afficher le score</b><small>Directement sur les vidéos consultées</small></div></div>
+   <div class="perm"><span class="bx">✓</span><div><b>Lire les signalements publics</b><small>Pour enrichir les critères d'analyse</small></div></div>
+   <div class="perm"><span class="bx x">✕</span><div><b>Agir à votre place</b><small>Publier, aimer ou commenter reste impossible</small></div></div>
+   <button class="btn" data-go="home">Autoriser et accéder à l'accueil <span>→</span></button></div>
+  <div class="sc" id="home">
+   <div class="top"><div class="brand"><svg class="lg"><use href="#lg"/></svg>Vigi</div><div class="avs" style="width:40px;height:40px;font-size:12px">CM</div></div>
+   <p class="k">Votre espace</p><h1>Bonjour, Camille.</h1><p style="margin:10px 0 20px;font-size:15px">Un regard sur vos habitudes, pas un verdict.</p>
+   <div class="dk"><p style="width:60%">Indice d'autonomie cognitive ⓘ</p><div class="big" style="margin-top:12px">74<s>%</s></div>
+    <p style="width:58%;margin-top:14px">Vous consultez de moins en moins l'analyse avant de vous faire une première opinion.</p><b>Voir mon évolution →</b>
+    <div class="ringw"><svg viewBox="0 0 96 96"><circle cx="48" cy="48" r="44" fill="none" stroke="#333" stroke-width="4"/><circle cx="48" cy="48" r="44" fill="none" stroke="#cae250" stroke-width="4" stroke-linecap="round" stroke-dasharray="276" stroke-dashoffset="80" transform="rotate(-90 48 48)"/></svg><span><b>+6</b>ce mois-ci</span></div></div>
+   <div class="card"><div style="display:flex;align-items:center;gap:14px"><div class="ic">♪</div><div><p class="k" style="margin:0">Compte TikTok</p><b>@camille.d</b></div><span class="pill" id="st">Actif</span></div>
+    <p style="margin:14px 0 0">L'extension analyse les contenus pendant votre navigation.</p>
+    <button class="btn" id="open">Ouvrir TikTok et commencer <span>→</span></button>
+    <button class="btn g" data-go="settings">🔗&nbsp; Gérer la connexion</button></div>
+   <p class="k" style="margin-top:26px">Cette semaine</p><h2 style="font-size:24px;font-family:var(--ss);font-weight:500;margin-bottom:14px">Votre pratique en un coup d'œil</h2>
+   <div class="card stat"><span class="bx">▷</span><div><div class="n">38</div><b>contenus accompagnés</b><small>12 de moins que la semaine passée</small></div></div>
+   <div class="card stat"><span class="bx">2</span><div><div class="n">2,1</div><b>indice moyen consulté</b><small>sur une échelle de 1 à 3</small></div></div>
+   <div class="card stat"><span class="bx">↗</span><div><div class="n">61%</div><b>vus sans ouvrir l'analyse</b><small>Votre autonomie progresse</small></div></div>
+   <p class="k" style="margin-top:26px">Une échelle, pas un jugement</p><h2 style="font-size:24px;font-family:var(--ss);font-weight:500">Trois niveaux pour mieux regarder</h2><p style="margin-top:6px">L'indice décrit la quantité d'éléments vérifiables disponibles. Il ne décide jamais à votre place.</p>
+   <div class="sc3"><div style="background:#f0f5da"><span class="n">1</span>Peu d'éléments</div><div style="background:var(--lime)"><span class="n">2</span>Éléments partiels</div><div style="background:var(--ink);color:#fff"><span class="n">3</span>Éléments solides</div></div></div>
+  <div class="sc" id="settings">
+   <div class="top"><div class="brand"><svg class="lg"><use href="#lg"/></svg>Vigi</div><div class="avs" style="width:40px;height:40px;font-size:12px">CM</div></div>
+   <p class="k">Préférences</p><h1>Réglages</h1><p style="margin:10px 0 22px;font-size:15px">Gardez le contrôle sur votre expérience et vos données.</p>
+   <p class="k">Compte</p><div class="list"><div class="li"><div class="avs">CM</div><div><b>Camille Martin</b><small>camille.martin@email.fr</small></div><button class="btn g" style="width:auto;height:36px;padding:0 14px;margin:0;background:#fff;border:1px solid var(--line);font-size:12px">Modifier</button></div></div>
+   <p class="k">Extension</p><div class="list">
+    <div class="li"><div class="ix">🔗</div><div>Connexion TikTok<small id="cs">@camille.d · Compte lié</small></div><div class="sw on" id="swc"></div></div>
+    <div class="li"><div class="ix">🔔</div><div>Bilans hebdomadaires<small>Recevoir un résumé de votre pratique</small></div><div class="sw on"></div></div>
+    <div class="li"><div class="ix">⚙</div><div>Personnaliser les analyses<small>Adapter les explications à vos usages</small></div><div class="sw"></div></div></div>
+   <p class="k">Données &amp; confidentialité</p><div class="list">
+    <div class="li"><div class="ix">🛡</div><div>Mes données<small>Consulter, exporter ou supprimer vos données</small></div>›</div>
+    <div class="li"><div class="ix">👁</div><div>Transparence de l'IA<small>Comprendre les sources et la méthode</small></div>›</div></div>
+   <div class="dk" style="margin-top:0"><p class="k" style="color:#aaa;margin-top:30px">Votre attention vous appartient</p><h2 style="font-size:28px">Une IA au service du doute.</h2><p style="margin-top:12px">Vigi ne vend pas vos données, ne masque aucun contenu et n'établit pas de profil politique. Les analyses sont conçues pour éclairer, jamais pour imposer.</p><b>Lire notre engagement →</b></div></div>
+  <div class="navp" id="navp"><button class="on" data-go="home"><span>⌂</span>Accueil</button><button data-go="settings"><span>⚙</span>Réglages</button></div>
+ </div>
+ <div class="layer splash" id="spl"><div class="n">♪</div><div>Ouverture de TikTok…</div><i></i></div>
+ <div class="layer tt" id="tt">
+  <div class="ttop"><span>Abonnés</span><span style="border-bottom:2px solid #fff">Pour toi</span></div>
+  <div class="srch">⌕</div><button class="badge" id="bd" aria-label="Score de fiabilité"></button>
+  <div class="toast" id="toast">Vigi est actif. Touchez le score sous la loupe pour en savoir plus.</div>
+  <div class="side"><span>♥<br>12,4 k</span><span>💬<br>843</span><span>➦<br>Partager</span></div>
+  <div class="cap"><b>@infos_express</b><br>Les chiffres qui circulent sur la nouvelle mesure : on vous explique 👇</div>
+  <div class="sheet" id="sh"><div class="grip" id="gr"><i></i></div>
+   <div class="hd"><button class="ib hide" id="bk">←</button><b id="ttl">Critères · score <span id="sc"></span>/3</b><button class="ib" id="ar">↑</button></div>
+   <div class="body" id="bd2"></div><button class="dis" id="ds">je ne suis pas d'accord</button></div>
+ </div>
+</div>
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+$$('.hero').forEach(h=>h.innerHTML='<div class="brand"><svg class="lg"><use href="#lg"/></svg>Vigi</div><p class="k">Premiers pas</p><h1>Gardez votre propre point de vue.</h1>');
+function go(id){$$('.sc').forEach(e=>e.classList.toggle('on',e.id==id));$('#'+id).scrollTop=0;
+ $('#navp').classList.toggle('on',id=='home'||id=='settings');$$('.navp button').forEach(b=>b.classList.toggle('on',b.dataset.go==id));
+ if(id=='confirm')$('#who').textContent=$('#u').value||'@compte'}
+$$('[data-go]').forEach(b=>b.onclick=()=>go(b.dataset.go));
+$('#eye').onclick=()=>{const p=$('#pw');p.type=p.type=='password'?'text':'password'};
+let on=true;
+function link(){const s=$('#st');s.textContent=on?'Actif':'Inactif';s.classList.toggle('off',!on);$('#open').disabled=!on;$('#swc').classList.toggle('on',on);$('#cs').textContent=on?'@camille.d · Compte lié':'Compte lié · en pause'}
+$$('.sw').forEach(s=>s.onclick=()=>{s.classList.toggle('on');if(s.id=='swc'){on=s.classList.contains('on');link()}});
+// transfert
+function layer(id){$$('.layer').forEach(l=>l.classList.toggle('on',l.id==id));$('#demo').classList.toggle('hide',id!='tt')}
+$('#open').onclick=()=>{layer('spl');setTimeout(()=>{layer('tt');close_();const t=$('#toast');t.classList.add('on');setTimeout(()=>t.classList.remove('on'),3500)},1400)};
+$('#ret').onclick=()=>{close_();layer('app');go('home')};
+// extension
+const C=[["Présence d'une source","Vérifie si la vidéo cite ou montre d'où vient l'information."],["Qualité et traçabilité de la source","Regarde si la source est identifiable et si on peut remonter jusqu'à l'origine."],["Présence de preuves","Cherche des éléments concrets : documents, images datées, données."],["Contexte","Observe si l'information est replacée dans son contexte (date, lieu, cadre)."],["Possibilité de vérifier l'affirmation","Regarde si l'affirmation peut être recoupée avec des sources publiques."],["Précédemment signalé","Indique si des utilisateurs ont signalé ce contenu en commentaires ou via « signaler sur TikTok »."]];
+const M={1:[5],2:[0,3,4],3:[0,1,2,3,4]};
+const W={3:{0:"La vidéo cite un communiqué officiel.",1:"La source est identifiable et remonte à l'original.",2:"Des documents et chiffres datés sont montrés.",3:"La date, le lieu et le cadre sont précisés.",4:"Plusieurs sources publiques permettent de recouper."},
+2:{0:"Une source est citée à l'oral, sans lien direct.",3:"La date est donnée, mais le cadre complet manque.",4:"Une partie de l'affirmation se recoupe en ligne."},
+1:{5:"Des utilisateurs ont signalé cette vidéo en commentaires."}};let S=2,full=false,det=null;const sh=$('#sh');
+function render(){$('#sc').textContent=S;$('#bd').textContent=S;$('#bk').classList.toggle('hide',det===null);$('#ttl').classList.toggle('hide',det!==null);const b=$('#bd2');
+ if(det===null){b.innerHTML='<p style="margin:4px 0 0">Un repère pour vous aider à vous faire votre avis. Il ne dit pas si le contenu est vrai ou faux.</p><div class="chips">'+C.map((c,i)=>`<button class="chip ${M[S].includes(i)?'':'g'}" data-i="${i}">${c[0]}</button>`).join('')+'</div>'+(full?'<div class="ext" style="margin-top:16px"><b>Pour aller plus loin</b><a href="https://www.afp.com" target="_blank" rel="noopener">Agence France Presse<small>Dépêches et vérifications</small></a><a href="https://www.telerama.fr" target="_blank" rel="noopener">Télérama<small>Regard critique sur les médias</small></a></div>':'');
+  $$('.chip').forEach(c=>c.onclick=()=>{det=+c.dataset.i;render()})}
+ else{const m=M[S].includes(det);b.innerHTML=`<div class="chips" style="margin:6px 0 12px"><span class="chip ${m?'':'g'}" style="cursor:default">${C[det][0]}</span></div><p style="color:var(--ink);font-size:15px">${m?W[S][det]:'Non retenu pour cette vidéo. '+C[det][1]}</p>`}
+ $('#ar').textContent=full?'↓':'↑'}
+function close_(){full=false;det=null;sh.classList.remove('full','open');render()}
+const bd=$('#bd');let dr=null,moved=false;
+bd.addEventListener('pointerdown',e=>{const r=bd.getBoundingClientRect(),p=$('#tt').getBoundingClientRect();dr={x:e.clientX,y:e.clientY,l:r.left-p.left,t:r.top-p.top,W:p.width,H:p.height};moved=false;bd.setPointerCapture(e.pointerId);bd.style.transition='none'});
+bd.addEventListener('pointermove',e=>{if(!dr)return;const dx=e.clientX-dr.x,dy=e.clientY-dr.y;if(Math.abs(dx)+Math.abs(dy)>6)moved=true;if(!moved)return;bd.style.right='auto';bd.style.left=Math.min(dr.W-46,Math.max(16,dr.l+dx))+'px';bd.style.top=Math.min(dr.H-100,Math.max(82,dr.t+dy))+'px'});
+const bend=()=>{if(!dr)return;if(moved){bd.style.transition='left .2s';bd.style.left=(parseFloat(bd.style.left)+15<dr.W/2?16:dr.W-46)+'px'}dr=null;setTimeout(()=>{bd.style.transition='';moved=false},60)};
+bd.addEventListener('pointerup',bend);bd.addEventListener('pointercancel',bend);
+$('#bd').onclick=()=>{if(moved)return;det=null;full=false;sh.classList.remove('full');sh.classList.add('open');render()};
+$('#ar').onclick=()=>{if(!full){full=true;sh.classList.add('full');render()}else close_()};
+$('#bk').onclick=()=>{det=null;render()};
+$('#ds').onclick=()=>{const d=$('#ds');d.textContent='merci, votre réponse a été envoyée';d.classList.add('ok')};
+let y0=null,dy=0;const gr=$('#gr');
+gr.addEventListener('pointerdown',e=>{y0=e.clientY;dy=0;sh.style.transition='none';gr.setPointerCapture(e.pointerId)});
+gr.addEventListener('pointermove',e=>{if(y0===null)return;dy=Math.max(0,e.clientY-y0);sh.style.transform=`translateY(${dy}px)`});
+const end=()=>{if(y0===null)return;y0=null;sh.style.transition='';sh.style.transform='';if(dy>70)close_()};
+gr.addEventListener('pointerup',end);gr.addEventListener('pointercancel',end);
+$('#tt').addEventListener('click',e=>{if(sh.classList.contains('open')&&!e.target.closest('#sh,#bd'))close_()});
+sh.addEventListener('click',e=>e.stopPropagation());
+$$('.demo button').forEach(b=>b.onclick=()=>{S=+b.dataset.s;$$('.demo button').forEach(x=>x.classList.toggle('on',x==b));det=null;render()});
+link();render();
+</script></body></html>
